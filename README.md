@@ -37,10 +37,3 @@ npm i
 ```
 npm start
 ```
-
-## Update Log
-
-### 13th March
-
-- Repository created and first commit
-- Enter start and end postcodes, and it provides instructions on the various routes that can be taken

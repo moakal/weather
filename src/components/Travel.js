@@ -1,17 +1,18 @@
 /*
-Enter the postcodes of the start and end locations, and it will
+Enter the postcodes of the start and end locations, and it will list
+the various routes from the start to the end, as well as instructions
+on taking these routes.
 
 This is not what the final component will look like. Just testing
 things and trying to make things work, and from here we can
 build upwards to what we designed.
 */
 
+import { Button } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Travel = () => {
-  // const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
-  // const [destination, setDestination] = useState({ latitude: 0, longitude: 0 });
   const [startPostcode, setStartPostcode] = useState("");
   const [destPostcode, setDestPostcode] = useState("");
   const [data, setData] = useState({});
@@ -53,12 +54,12 @@ const Travel = () => {
           <p>Lines taken:</p>
           {data.journeys.map((journey) => (
             <>
-            {journey.legs.map((leg) => (
-              <p>{leg.instruction.summary}</p>
-            ))}
-          <p>---</p>  
+              {journey.legs.map((leg) => (
+                <p>{leg.instruction.summary}</p>
+              ))}
+              <button>Select this route</button>
+              <p>---</p>
             </>
-          
           ))}
         </>
       )}
