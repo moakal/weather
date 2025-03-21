@@ -1,16 +1,14 @@
 # ECS522U Weather App Project - Group 6
 
-This is the 'travel' branch of the repository for the Group 6 Weather Application project.
+This is the repository page for the weather application project for Group 6.
 
-In this branch, we are developing the feature for gathering the relevant lines based on the start and end locations, as well as the directions taken.
+## Members
 
-While the final prototype will likely look different from this, our current focus is on building a functional foundation, and from here we will refine the application towards our intended design.
-
-## Usage
-
-Currently, you enter the postcodes of your start and end points, and it will provide various routes, as well as instructions on taking these routes.
-
-The time taken for these routes must be retrieved, as well as the statuses of the relevant lines.
+- Alyazia Abdulla Saeed Mohamed Alharbi (a.alharbi@stu22.qmul.ac.uk)
+- Amaal Mahamed Ali (amaal.ali@se23.qmul.ac.uk)
+- Ibraheem Aljokhadar (i.aljokhadar@se23.qmul.ac.uk)
+- Mohammed Akbar Ali (m.ali@se23.qmul.ac.uk)
+- Shayan Ziyad Ali (s.ali@se23.qmul.ac.uk)
 
 ## Installation
 
