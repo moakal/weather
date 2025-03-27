@@ -8,30 +8,60 @@ things and trying to make things work, and from here we can
 build upwards to what we designed.
 */
 
-import { Button } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 
 const Travel = () => {
   const [startPostcode, setStartPostcode] = useState("");
   const [destPostcode, setDestPostcode] = useState("");
-  const [data, setData] = useState({});
+  const [journeyData, setJourneyData] = useState({});
 
   const fetchData = async () => {
     try {
-      const data = await axios.get(
-        `https://api.tfl.gov.uk/Journey/JourneyResults/${startPostcode}/to/${destPostcode}`
+      // First fetch the journey data
+      const res = await axios.get(
+        `https://api.tfl.gov.uk/Journey/JourneyResults/${"IG2 6SY"}/to/${"E1 4NS"}`
+        // `https://api.tfl.gov.uk/Journey/JourneyResults/${"940GZZLULYS"}/to/${"E1 4NS"}`
       );
-      setData(data.data);
-      console.log(data.data);
-    } catch {
-      console.error("An error occurred");
+      setJourneyData(res.data);
+      console.log(res.data);
+      const lines = res.data.lines.map((line) => line.id);
+      console.log("LINES");
+      console.log(lines);
+      const resLines = await axios.get(
+        `https://api.tfl.gov.uk/Line/${lines.join()}/Disruption`
+      );
+      console.log(resLines);
+    } catch (error) {
+      console.log(error);
     }
+    // try {
+    //   // First fetch the journey data
+    //   const res = await axios.get(
+    //     `https://api.tfl.gov.uk/Journey/JourneyResults/${"940GZZLULYS"}/to/${"E1 4NS"}`
+    //   );
+    //   setJourneyData(res.data);
+    //   console.log(res.data);
+    //   const lines = res.data.lines.map((line) => line.id)
+    //   console.log("LINES")
+    //   console.log(lines)
+    //   // If successful, fetch the statuses for the relevant lines
+    //   const resLines = await axios.get(`https://api.tfl.gov.uk/Line/${}/Disruption`)
+    // } catch (error) {
+    //   console.error("An error occurred");
+    // }
   };
 
   return (
     <>
-      <label htmlFor="start-postcode">Start postcode:</label>
+      <Stack>
+        <Typography>Current location: Leytonstone</Typography>
+        <Typography>Destination: Queen Mary University of London</Typography>
+        <Typography>Estimated Travel Time: </Typography>
+      </Stack>
+
+      {/* <label htmlFor="start-postcode">Start postcode:</label>
       <input
         type="text"
         name="start-postcode"
@@ -47,9 +77,9 @@ const Travel = () => {
         value={destPostcode}
         onChange={(e) => setDestPostcode(e.target.value)}
       />
-      <br />
+      <br /> */}
       <button onClick={fetchData}>Go</button>
-      {Object.keys(data).length !== 0 && (
+      {/* {Object.keys(data).length !== 0 && (
         <>
           <p>Lines taken:</p>
           {data.journeys.map((journey) => (
@@ -62,7 +92,7 @@ const Travel = () => {
             </>
           ))}
         </>
-      )}
+      )} */}
     </>
   );
 };
