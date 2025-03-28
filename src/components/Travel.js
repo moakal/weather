@@ -10,18 +10,20 @@ build upwards to what we designed.
 
 import { Button, Stack, Typography } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const Travel = () => {
   const [startPostcode, setStartPostcode] = useState("");
   const [destPostcode, setDestPostcode] = useState("");
   const [journeyData, setJourneyData] = useState({});
+  const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
   const fetchData = async () => {
     try {
       // First fetch the journey data
       const res = await axios.get(
-        `https://api.tfl.gov.uk/Journey/JourneyResults/${"IG2 6SY"}/to/${"E1 4NS"}`
+        `https://api.tfl.gov.uk/Journey/JourneyResults/${"IG2 6SY"}/to/${"EC4V 6BJ"}?journeyPreference=leastinterchange&routeBetweenEntrances=true`
         // `https://api.tfl.gov.uk/Journey/JourneyResults/${"940GZZLULYS"}/to/${"E1 4NS"}`
       );
       setJourneyData(res.data);
@@ -53,47 +55,16 @@ const Travel = () => {
     // }
   };
 
-  return (
-    <>
-      <Stack>
-        <Typography>Current location: Leytonstone</Typography>
-        <Typography>Destination: Queen Mary University of London</Typography>
-        <Typography>Estimated Travel Time: </Typography>
-      </Stack>
+  useEffect(() => {
+    fetchData()
+  }, [])
 
-      {/* <label htmlFor="start-postcode">Start postcode:</label>
-      <input
-        type="text"
-        name="start-postcode"
-        id="start-postcode"
-        value={startPostcode}
-        onChange={(e) => setStartPostcode(e.target.value)}
-      />
-      <label htmlFor="dest-postcode">Destination postcode:</label>
-      <input
-        type="text"
-        name="dest-postcode"
-        id="dest-postcode"
-        value={destPostcode}
-        onChange={(e) => setDestPostcode(e.target.value)}
-      />
-      <br /> */}
-      <button onClick={fetchData}>Go</button>
-      {/* {Object.keys(data).length !== 0 && (
-        <>
-          <p>Lines taken:</p>
-          {data.journeys.map((journey) => (
-            <>
-              {journey.legs.map((leg) => (
-                <p>{leg.instruction.summary}</p>
-              ))}
-              <button>Select this route</button>
-              <p>---</p>
-            </>
-          ))}
-        </>
-      )} */}
-    </>
+  return (
+    <div>
+      <p>From: Gants Hill</p>
+      <p>To: Queen Mary University of London</p>
+      <p>Estimated Travel Time: {journeyData.journeys[0].duration} minutes</p>
+    </div>
   );
 };
 
