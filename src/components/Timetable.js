@@ -17,22 +17,22 @@ const Timetable = () => {
 	}, [events]);
 
 	const times = [
-		"8:00 - 9:00",
-		"9:00 - 10:00",
+		"08:00 - 09:00",
+		"09:00 - 10:00",
 		"10:00 - 11:00",
 		"11:00 - 12:00",
-		"12:00 - 1:00",
-		"1:00 - 2:00",
-		"2:00 - 3:00",
-		"3:00 - 4:00",
-		"4:00 - 5:00",
-		"5:00 - 6:00",
-		"6:00 - 7:00",
-		"7:00 - 8:00",
-		"8:00 - 9:00",
-		"9:00 - 10:00",
-		"10:00 - 11:00",
-		"11:00 - 12:00",
+		"12:00 - 13:00",
+		"13:00 - 14:00",
+		"14:00 - 15:00",
+		"15:00 - 16:00",
+		"16:00 - 17:00",
+		"17:00 - 18:00",
+		"18:00 - 19:00",
+		"19:00 - 20:00",
+		"20:00 - 21:00",
+		"21:00 - 22:00",
+		"22:00 - 23:00",
+		"23:00 - 00:00",
 	];
 
 	const days = ["MON", "TUE", "WED", "THU", "FRI"];
@@ -73,13 +73,22 @@ const Timetable = () => {
 				const parsedEvents = vevents.map((vevent) => {
 					const event = new ICAL.Event(vevent);
 					const startDate = event.startDate.toJSDate();
+					const hours = startDate.getHours();
+					// Format hour with leading zero if needed
+					const formattedHour = hours < 10 ? `0${hours}` : `${hours}`;
+
+					const endDate = event.endDate.toJSDate();
+					const endHours = endDate.getHours();
+					const formattedEndHour =
+						endHours < 10 ? `0${endHours}` : `${endHours}`;
+
 					return {
 						day: startDate
 							.toLocaleDateString("en-US", { weekday: "short" })
 							.slice(0, 3)
 							.toUpperCase(),
-						startTime: `${startDate.getHours()}:00`,
-						endTime: `${event.endDate.toJSDate().getHours()}:00`,
+						startTime: `${formattedHour}:00`,
+						endTime: `${formattedEndHour}:00`,
 						module: event.summary,
 						location: event.location || "",
 						type: event.description || "",
