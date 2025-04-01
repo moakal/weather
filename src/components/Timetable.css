@@ -1,12 +1,20 @@
 .timetable-container {
     padding: 20px;
-    overflow-x: auto;
+    background-color: #27ae60;
+    min-height: 100vh;
+}
+
+.timetable-header {
+    color: white;
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 40px;
+    font-family: Arial, sans-serif;
 }
 
 .import-button-container {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .file-input {
@@ -14,71 +22,131 @@
 }
 
 .import-button {
-    display: inline-block;
+    background-color: white;
+    color: #27ae60;
     padding: 10px 20px;
-    background-color: #4a6da7;
-    color: white;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
-}
-
-.import-button:hover {
-    background-color: #3c5a8c;
 }
 
 .clear-button {
-    padding: 10px 20px;
-    background-color: #dc3545;
+    background-color: #e74c3c;
     color: white;
     border: none;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: 10px;
     cursor: pointer;
-    font-size: 14px;
-}
-
-.clear-button:hover {
-    background-color: #c82333;
 }
 
 .timetable {
-    border-collapse: collapse;
     width: 100%;
-    min-width: 1000px;
-    background-color: white;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-spacing: 8px;
+    border-collapse: separate;
 }
 
 .timetable th,
 .timetable td {
-    border: 1px solid #ccc;
-    padding: 8px;
+    padding: 15px;
     text-align: left;
-    font-size: 14px;
-    min-width: 80px;
+    border-radius: 8px;
 }
 
-.timetable th {
-    background-color: #f5f5f5;
+.time-cell {
+    color: white;
+    width: 120px;
+    text-align: left;
     font-weight: normal;
 }
 
 .day-cell {
-    background-color: #4a6da7;
     color: white;
-    font-weight: bold;
-    width: 50px;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 15px !important;
+    border-bottom: 2px solid white;
 }
 
-.event-cell {
-    background-color: #e6f3ff;
+/* Empty cell styling */
+.empty-cell {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
 }
 
+/* Event content styling */
 .event-content {
-    font-size: 12px;
-    line-height: 1.3;
+    padding: 15px;
+    border-radius: 8px;
+    height: 100%;
+    font-size: 0.9em;
+}
+
+/* Event type colors */
+.event-content.light-blue {
+    background-color: #b2ebf2;
+    color: #01579b;
+}
+
+.event-content.orange {
+    background-color: #ffcc80;
+    color: #e65100;
+}
+
+.event-content.yellow {
+    background-color: #fff59d;
+    color: #f57f17;
+}
+
+.event-content.purple {
+    background-color: #e1bee7;
+    color: #4a148c;
+}
+
+.event-content.pink {
+    background-color: #f8bbd0;
+    color: #880e4f;
+}
+
+.event-content.green {
+    background-color: #c8e6c9;
+    color: #1b5e20;
+}
+
+/* Special rows that span all columns */
+.lunch-break {
+    background-color: #1a237e;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.rest-time {
+    background-color: #1a237e;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.program-check {
+    background-color: white;
+    color: #333;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.projects {
+    background-color: #e8f5e9;
+    color: #333;
+    text-align: center;
+    font-size: 1.2em;
 }
 
 .location {
-    color: #666;
+    font-size: 12px;
     margin-top: 4px;
+    color: #666;
 }

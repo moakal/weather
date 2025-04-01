@@ -17,30 +17,47 @@ const Timetable = () => {
 	}, [events]);
 
 	const times = [
-		"8:00",
-		"8:30",
-		"9:00",
-		"9:30",
-		"10:00",
-		"10:30",
-		"11:00",
-		"11:30",
-		"12:00",
-		"12:30",
-		"13:00",
-		"13:30",
-		"14:00",
-		"14:30",
-		"15:00",
-		"15:30",
-		"16:00",
-		"16:30",
-		"17:00",
-		"17:30",
-		"18:00",
+		"8:00 - 9:00",
+		"9:00 - 10:00",
+		"10:00 - 11:00",
+		"11:00 - 12:00",
+		"12:00 - 1:00",
+		"1:00 - 2:00",
+		"2:00 - 3:00",
+		"3:00 - 4:00",
+		"4:00 - 5:00",
+		"5:00 - 6:00",
+		"6:00 - 7:00",
+		"7:00 - 8:00",
+		"8:00 - 9:00",
+		"9:00 - 10:00",
+		"10:00 - 11:00",
+		"11:00 - 12:00",
 	];
 
-	const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+	const days = ["MON", "TUE", "WED", "THU", "FRI"];
+
+	// Available colors for events
+	const eventColors = [
+		"light-blue",
+		"orange",
+		"yellow",
+		"purple",
+		"pink",
+		"green",
+	];
+
+	// Get consistent color based on module name
+	const getEventStyle = (module) => {
+		if (!module) return "";
+
+		// Use sum of character codes to create consistent color
+		let sum = 0;
+		for (let i = 0; i < module.length; i++) {
+			sum += module.charCodeAt(i);
+		}
+		return eventColors[sum % eventColors.length];
+	};
 
 	const handleFileUpload = (event) => {
 		const file = event.target.files[0];
@@ -59,20 +76,13 @@ const Timetable = () => {
 					return {
 						day: startDate
 							.toLocaleDateString("en-US", { weekday: "short" })
-							.slice(0, 3),
-						startTime: startDate.toLocaleTimeString("en-US", {
-							hour: "2-digit",
-							minute: "2-digit",
-							hour12: false,
-						}),
-						endTime: event.endDate.toJSDate().toLocaleTimeString("en-US", {
-							hour: "2-digit",
-							minute: "2-digit",
-							hour12: false,
-						}),
+							.slice(0, 3)
+							.toUpperCase(),
+						startTime: `${startDate.getHours()}:00`,
+						endTime: `${event.endDate.toJSDate().getHours()}:00`,
 						module: event.summary,
-						location: event.location || "No location specified",
-						type: event.description || "No type specified",
+						location: event.location || "",
+						type: event.description || "",
 					};
 				});
 
@@ -96,13 +106,38 @@ const Timetable = () => {
 	};
 
 	const getEventForTimeSlot = (day, time) => {
+		const [startHour] = time.split(" - ");
 		return events.find(
-			(event) => event.day === day && event.startTime === time
+			(event) => event.day === day && event.startTime === startHour
+		);
+	};
+
+	const renderTimeSlot = (timeSlot) => {
+		return (
+			<tr key={timeSlot}>
+				<td className="time-cell">{timeSlot}</td>
+				{days.map((day) => {
+					const event = getEventForTimeSlot(day, timeSlot);
+					return (
+						<td key={`${day}-${timeSlot}`} className="empty-cell">
+							{event && (
+								<div className={`event-content ${getEventStyle(event.module)}`}>
+									<div>{event.module}</div>
+									{event.location && (
+										<div className="location">{event.location}</div>
+									)}
+								</div>
+							)}
+						</td>
+					);
+				})}
+			</tr>
 		);
 	};
 
 	return (
 		<div className="timetable-container">
+			<h1 className="timetable-header">Weekly Schedule</h1>
 			<div className="import-button-container">
 				<input
 					type="file"
@@ -123,37 +158,15 @@ const Timetable = () => {
 			<table className="timetable">
 				<thead>
 					<tr>
-						<th></th>
-						{times.map((time) => (
-							<th key={time}>{time}</th>
+						<th className="time-cell"></th>
+						{days.map((day) => (
+							<th key={day} className="day-cell">
+								{day}
+							</th>
 						))}
 					</tr>
 				</thead>
-				<tbody>
-					{days.map((day) => (
-						<tr key={day}>
-							<td className="day-cell">{day}</td>
-							{times.map((time) => {
-								const event = getEventForTimeSlot(day, time);
-								return (
-									<td
-										key={`${day}-${time}`}
-										className={event ? "event-cell" : ""}
-									>
-										{event && (
-											<div className="event-content">
-												<div>{event.module}</div>
-												<div className="location">
-													Location: {event.location}
-												</div>
-											</div>
-										)}
-									</td>
-								);
-							})}
-						</tr>
-					))}
-				</tbody>
+				<tbody>{times.map(renderTimeSlot)}</tbody>
 			</table>
 		</div>
 	);
