@@ -141,14 +141,6 @@ const Travel = () => {
     setOpen(false);
   };
 
-  const isGoodService = (dis) => {
-    const desc = getStatusDesc(dis)
-    if (desc === "Good Service") {
-      return true
-    }
-    return false
-  }
-
   const getStatusDesc = (dis) => {
     return dis.lineStatuses[0].statusSeverityDescription
   }
@@ -157,7 +149,7 @@ const Travel = () => {
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          Enter Postcodes
         </DialogTitle>
         <DialogContent>
           <Stack gap={2}>
@@ -191,7 +183,7 @@ const Travel = () => {
         </DialogActions>
       </Dialog>
       <Container background={"url('/images/tube_map4.png')"}>
-        <Stack gap={2}>
+        <Stack gap={2} alignItems="center">
           <Button
             onClick={handleClickOpen}
             sx={{ borderRadius: "10px", color: "white" }}
@@ -203,8 +195,8 @@ const Travel = () => {
             <CircularProgress />
           ) : error ? (
             startPostcode === "" || destPostcode === "" ? (
-              <Typography sx={{ color: "white" }} variant="h4">
-                Enter a start and destination postcode
+              <Typography sx={{ color: "white" }} variant="h4" textAlign="center">
+                Enter start and destination postcodes
               </Typography>
             ) : (
               <Typography color="error" variant="h4">
@@ -223,24 +215,26 @@ const Travel = () => {
                 </Typography>
               </Card>
               <Card>
-                <Typography>
-                  Estimated Travel Time: {journeyData.journeys[0].duration}{" "}
-                  minutes
+                <Typography mb={2} fontWeight="bold" variant="h6">
+                  Estimated Travel Time
                 </Typography>
+                <Typography fontSize={20}>{journeyData.journeys[0].duration} minutes</Typography>
               </Card>
               <Card>
+              <Typography mb={2} fontWeight="bold" variant="h6">Transport Updates</Typography>
                 <Stack gap={1}>
+                  
                   {disruptions.map((dis) => (
                     <Stack direction="row" justifyContent="space-between">
                       <Typography
-                        p={1}
-                        sx={{ borderRadius: "10px" }}
+                        px={1}
+                        sx={{ borderRadius: "7px" }}
                         bgcolor={() => getLineColour(dis.id)}
                         color={dis.id === "northern" ? "white" : "black"}
-                      >{`${
+                      ><b>{`${
                         dis.id.charAt(0).toUpperCase() + dis.id.slice(1)
-                      }`}</Typography>
-                      <Typography sx={{color: isGoodService(dis) ? "#005400" : "#8a0000"}}>{getStatusDesc(dis)}</Typography>
+                      }`}</b></Typography>
+                      <Typography sx={{color: getStatusDesc(dis) === "Good Service" ? "#003d00" : getStatusDesc(dis) === "Minor Delays" ? "#783800" : "#780000"}}><b>{getStatusDesc(dis)}</b></Typography>
                     </Stack>
                   ))}
                 </Stack>

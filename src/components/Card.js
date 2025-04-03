@@ -8,7 +8,7 @@ const Card = styled(Paper)(({ theme }) => ({
       ? "rgba(0, 0, 0, 0.75)"
       : "rgba(255, 255, 255, 0.35)",
   backdropFilter: "blur(2px)",
-  width: "100%",
+  // width: "100%",
   maxWidth: "450px",
   margin: 0,
   boxShadow: theme.shadows[0],
